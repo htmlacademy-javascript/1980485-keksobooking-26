@@ -9,21 +9,24 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-// Количество генерируемых объектов
+const COORDINATES = {
+  latMin: 35.65000,
+  latMax: 35.70000,
+  lngMin: 139.70000,
+  lngMax: 139.80000
+};
 
-const OBJECT_COUNT = 10;
-
-// Функция генерации случайных чисел. Ссылка на источник - https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+const ADS_COUNT = 10;
 
 const getRandomNumber = (min, max) => {
   if (min > max || min < 0) {
     throw new RangeError('Задан неверный диапазон! Укажите другие числа.');
   }
 
-  return Math.floor(Math.random() * (max - min) + min);
+  return Math.round(Math.random() * (max - min) + min);
 };
 
-// Функция генерации случайных чисел с плавающей точкой. Ссылка на источник - https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed
+// Функция генерации случайных чисел с плавающей точкой.
 
 const getRandomFractional = (min, max, digits = 5) => {
   if (min > max || min < 0) {
@@ -42,52 +45,55 @@ const getRandomArrayElement = (element) => element[getRandomNumber(0, element.le
 // Функция для получения нескольких случайных элементов из массива
 
 const getRandomArrayElements = (elements) => {
-  const getShuffledArray = (elements).sort(()=>Math.random()-0.5); // Перемешивание массива
-  const getElements = getShuffledArray.slice(0, getRandomNumber(0, getShuffledArray.length)); // Получение случайных элементов из массива
-  const сonvertArrayToString = getElements.join(', '); // Преобразование массива в строку
+  const getShuffledArray = (elementsArray) => { // Функция для перемешивания массива по алгоритму Фишера-Йетса
+    for (let i = elementsArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [elementsArray[i], elementsArray[j]] = [elementsArray[j], elementsArray[i]];
+      return elementsArray;
+    }
+  };
 
-  return сonvertArrayToString;
+  const mixedArray = getShuffledArray(elements);
+  const getElements = mixedArray.slice(0, getRandomNumber(1, mixedArray.length)); // Получение случайных элементов из массива
+
+  return getElements;
 };
 
 // Функция для создания объекта (объявления)
 
-const createObject = (index) => {
-  const checkInOutTime = getRandomArrayElement(TIMES);
+const createAds = (index) => {
+  const location = {
+    lat: getRandomFractional(COORDINATES.latMin, COORDINATES.latMax),
+    lng: getRandomFractional(COORDINATES.lngMin, COORDINATES.lngMax)
+  };
 
   return {
     author: {
-      avatar: `img/avatars/user${index < 10 ? `${'0'}${index + 1}` : index}.png`, // Тернарный оператор для подстановки нуля и увеличения числа на единицу
+      avatar: `img/avatars/user${String(index + 1).padStart(2, '0')}.png`, // Подстановка нуля
     },
     offer: {
       title: 'Аренда недвижимости',
-      address: `${getRandomFractional(35.65000, 35.70000)}, ${getRandomFractional(139.70000, 139.80000)}`,
+      address: `${location.lat}, ${location.lng}`,
       price: getRandomNumber(10000, 400000),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomNumber(1, 8),
       guests: getRandomNumber(1, 8),
-      checkin: checkInOutTime,
-      checkout: checkInOutTime,
+      checkin: getRandomArrayElement(TIMES),
+      checkout: getRandomArrayElement(TIMES),
       features: getRandomArrayElements(FEATURES),
       description: 'Лучшее предложение по доступной цене',
       photos: getRandomArrayElements(PHOTOS),
     },
-    location: {
-      lat: getRandomFractional(35.65000, 35.70000),
-      lng: getRandomFractional(139.70000, 139.80000),
-    }
+    location
   };
 };
 
 // Функция для создания массива из объектов (объявлений)
 
-const generateOffers = (count) => {
-  const result = [];
-  for (let i = 0; i < count; i++) {
-    result.push(createObject(i));
-  }
+const generateAds = () => {
+  const result = Array.from({ length: 10 }, (item, index) => createAds(index));
+
   return result;
 };
 
-generateOffers(OBJECT_COUNT);
-
-// console.log(generateOffers(OBJECT_COUNT));
+generateAds(ADS_COUNT);
