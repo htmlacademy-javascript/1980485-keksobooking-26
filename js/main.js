@@ -1,5 +1,3 @@
-// Массивы из доступных данных
-
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const TIMES = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -9,11 +7,11 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const COORDINATES = {
-  latMin: 35.65000,
-  latMax: 35.70000,
-  lngMin: 139.70000,
-  lngMax: 139.80000
+const Coordinates = {
+  LAT_MIN: 35.65000,
+  LAT_MAX: 35.70000,
+  LNG_MIN: 139.70000,
+  LNG_MAX: 139.80000
 };
 
 const ADS_COUNT = 10;
@@ -25,8 +23,6 @@ const getRandomNumber = (min, max) => {
 
   return Math.round(Math.random() * (max - min) + min);
 };
-
-// Функция генерации случайных чисел с плавающей точкой.
 
 const getRandomFractional = (min, max, digits = 5) => {
   if (min > max || min < 0) {
@@ -63,13 +59,13 @@ const getRandomArrayElements = (elements) => {
 
 const createAds = (index) => {
   const location = {
-    lat: getRandomFractional(COORDINATES.latMin, COORDINATES.latMax),
-    lng: getRandomFractional(COORDINATES.lngMin, COORDINATES.lngMax)
+    lat: getRandomFractional(Coordinates.LAT_MIN, Coordinates.LAT_MAX),
+    lng: getRandomFractional(Coordinates.LNG_MIN, Coordinates.LNG_MAX)
   };
 
   return {
     author: {
-      avatar: `img/avatars/user${String(index + 1).padStart(2, '0')}.png`, // Подстановка нуля
+      avatar: `img/avatars/user${String(index + 1).padStart(2, '0')}.png`,
     },
     offer: {
       title: 'Аренда недвижимости',
