@@ -38,21 +38,24 @@ const getRandomFractional = (min, max, digits = 5) => {
 
 const getRandomArrayElement = (element) => element[getRandomNumber(0, element.length - 1)];
 
+// Функция для перемешивания массива по алгоритму Фишера-Йетса
+
+const getShuffledArray = (elementsArray) => {
+  const copy = elementsArray.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+
+    return copy;
+  }
+};
+
 // Функция для получения нескольких случайных элементов из массива
 
 const getRandomArrayElements = (elements) => {
-  const getShuffledArray = (elementsArray) => { // Функция для перемешивания массива по алгоритму Фишера-Йетса
-    for (let i = elementsArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [elementsArray[i], elementsArray[j]] = [elementsArray[j], elementsArray[i]];
-      return elementsArray;
-    }
-  };
-
   const mixedArray = getShuffledArray(elements);
-  const getElements = mixedArray.slice(0, getRandomNumber(1, mixedArray.length)); // Получение случайных элементов из массива
 
-  return getElements;
+  return mixedArray.slice(0, getRandomNumber(1, mixedArray.length));
 };
 
 // Функция для создания объекта (объявления)
@@ -86,10 +89,8 @@ const createAds = (index) => {
 
 // Функция для создания массива из объектов (объявлений)
 
-const generateAds = () => {
-  const result = Array.from({ length: 10 }, (item, index) => createAds(index));
-
-  return result;
-};
+const generateAds = () => Array.from({ length: 10 }, (_, index) => createAds(index));
 
 generateAds(ADS_COUNT);
+
+console.log(generateAds(ADS_COUNT));
