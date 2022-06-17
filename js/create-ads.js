@@ -35,5 +35,3 @@ const createAds = (index) => {
 const generateAds = () => Array.from({ length: ADS_COUNT }, (_, index) => createAds(index));
 
 generateAds(ADS_COUNT);
-
-console.log(generateAds(ADS_COUNT));
