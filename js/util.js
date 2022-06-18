@@ -40,4 +40,10 @@ const getRandomArrayElements = (elements) => {
   return mixedArray.slice(0, getRandomNumber(1, mixedArray.length));
 };
 
-export {getRandomNumber, getRandomFractional, getRandomArrayElement, getShuffledArray, getRandomArrayElements};
+export {
+  getRandomNumber,
+  getRandomFractional,
+  getRandomArrayElement,
+  getShuffledArray,
+  getRandomArrayElements
+};
