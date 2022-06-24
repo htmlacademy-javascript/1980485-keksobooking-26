@@ -10,21 +10,18 @@ const fragment2 = document.createDocumentFragment();
 
 const createAds = generateAds();
 
-const getTranslate = (type) => {
-  if (type === 'flat') {
-    return 'Квартира';
-  }
-  if (type === 'bungalow') {
-    return 'Бунгало';
-  }
-  if (type === 'house') {
-    return 'Дом';
-  }
-  if (type === 'palace') {
-    return 'Дворец';
-  }
-  if (type === 'hotel') {
-    return 'Отель';
+const getHousingType = (type) => {
+  switch (type) {
+    case 'palace':
+      return 'Дворец';
+    case 'flat':
+      return 'Квартира';
+    case 'house':
+      return 'Дом';
+    case 'bungalow':
+      return 'Бунгало';
+    case 'hotel':
+      return 'Отель';
   }
 };
 
@@ -61,11 +58,16 @@ const getSimilarAds = () => {
     cardElement.querySelector('.popup__title').textContent = element.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = element.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = `${element.offer.price} ₽/ночь`;
-    cardElement.querySelector('.popup__type').textContent =  getTranslate(element.offer.type);
+    cardElement.querySelector('.popup__type').textContent =  getHousingType(element.offer.type);
     cardElement.querySelector('.popup__text--capacity').textContent = `${element.offer.rooms} комнаты для ${element.offer.guests} гостей`;
     cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${element.offer.checkin}, выезд до ${element.offer.checkout}`;
     createFeatureElement(element.offer.features, containerFeatures);
-    cardElement.querySelector('.popup__description').textContent = element.offer.description;
+    const description = cardElement.querySelector('.popup__description');
+    if (element.offer.description === '' || element.offer.description === undefined) {
+      description.classList.add('hidden');
+    } else {
+      description.textContent = element.offer.description;
+    }
     createPhotoElement(element.offer.photos, containerPhotos);
     cardElement.querySelector('.popup__avatar').src = element.author.avatar;
 

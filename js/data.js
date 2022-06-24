@@ -21,7 +21,7 @@ const Coordinates = {
   LNG_MAX: 139.80000
 };
 
-const ADS_COUNT = 10;
+const ADS_COUNT = 1;
 
 // Функция для создания объекта (объявления)
 
@@ -56,4 +56,4 @@ const createAds = (index) => {
 
 const generateAds = () => Array.from({ length: ADS_COUNT }, (_, index) => createAds(index));
 
-export {generateAds, ADS_COUNT, PHOTOS, FEATURES};
+export {generateAds, ADS_COUNT};
