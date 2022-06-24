@@ -1,15 +1,14 @@
-import {generateAds, PHOTOS, FEATURES} from './data.js';
+import {generateAds, FEATURES} from './data.js';
 import {getRandomArrayElements} from './util.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const mapCanvas = document.querySelector('#map-canvas');
 
-const randomPhotos = getRandomArrayElements(PHOTOS);
-const containerPhotos = cardTemplate.querySelector('.popup__photos');
-const photo = containerPhotos.querySelector('.popup__photo');
-
 const randomFeatures = getRandomArrayElements(FEATURES);
 const containerFeatures = cardTemplate.querySelector('.popup__features');
+
+
+const photo = cardTemplate.querySelector('.popup__photo');
 
 const fragment = document.createDocumentFragment();
 
@@ -33,8 +32,17 @@ const getTranslate = (type) => {
   }
 };
 
-const getSimilarAds = () => {
+cardTemplate.querySelector('.popup__photos').innerHTML = '';
 
+const createPhotoElement = (element, container) => {
+  element.forEach((value) => {
+    const photoElement = photo.cloneNode(true);
+    photoElement.src = value;
+    container.append(photoElement);
+  });
+};
+
+const getSimilarAds = () => {
 
   randomFeatures.forEach((item) => {
     const featuresItem = containerFeatures.querySelector(`.popup__feature--${item}`);
@@ -46,15 +54,9 @@ const getSimilarAds = () => {
   containerFeatures.innerHTML = '';
   containerFeatures.append(fragment);
 
-  randomPhotos.forEach((value) => {
-    photo.remove();
-    const photoElement = photo.cloneNode(true);
-    photoElement.src = value;
-    containerPhotos.append(photoElement);
-  });
-
   createAds.forEach((element) => {
     const cardElement = cardTemplate.cloneNode(true);
+    const containerPhotos = cardElement.querySelector('.popup__photos');
 
     cardElement.querySelector('.popup__title').textContent = element.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = element.offer.address;
@@ -63,7 +65,9 @@ const getSimilarAds = () => {
     cardElement.querySelector('.popup__text--capacity').textContent = `${element.offer.rooms} комнаты для ${element.offer.guests} гостей`;
     cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${element.offer.checkin}, выезд до ${element.offer.checkout}`;
     cardElement.querySelector('.popup__description').textContent = element.offer.description;
+    createPhotoElement(element.offer.photos, containerPhotos);
     cardElement.querySelector('.popup__avatar').src = element.author.avatar;
+
     fragment.appendChild(cardElement);
   });
   mapCanvas.append(fragment);
