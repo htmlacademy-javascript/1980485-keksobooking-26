@@ -1,7 +1,8 @@
-import {generateAds, ADS_COUNT} from './data.js';
-import {getSimilarAds} from './create-card.js';
+import {generateAds} from './data.js';
+import {renderCard} from './create-card.js';
 
-generateAds(ADS_COUNT);
+const mapCanvas = document.querySelector('#map-canvas');
 
-getSimilarAds();
+const card = renderCard(generateAds()[0]);
 
+mapCanvas.append(card);
