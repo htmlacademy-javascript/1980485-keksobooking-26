@@ -1,4 +1,9 @@
-import {generateAds, ADS_COUNT} from './create-ads.js';
+import {generateAds} from './data.js';
+import {renderCard} from './create-card.js';
 
-generateAds(ADS_COUNT);
+const mapCanvas = document.querySelector('#map-canvas');
 
+const ads = generateAds();
+const card = renderCard(ads[0]);
+
+mapCanvas.append(card);
