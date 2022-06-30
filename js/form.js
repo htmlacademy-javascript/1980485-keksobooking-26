@@ -3,29 +3,27 @@ const adFormFieldsets = document.querySelectorAll('fieldset, select');
 const mapFilters = document.querySelector('.map__filters');
 const mapFiltersFieldsets = document.querySelectorAll('fieldset, select');
 
-const enableInactiveMode = () => {
+const toggleElements = (items, value) => {
+  items.forEach((item) => {
+    item.disabled = value;
+  });
+};
+
+const deactivateForm = () => {
   adForm.classList.add('ad-form--disabled');
   mapFilters.classList.add('map__filters--disabled');
-  adFormFieldsets.forEach((item) => {
-    item.disabled = true;
-  });
-  mapFiltersFieldsets.forEach((item) => {
-    item.disabled = true;
-  });
+  toggleElements(adFormFieldsets, true);
+  toggleElements(mapFiltersFieldsets, true);
 };
 
-const enableActiveModeForm = () => {
+const activateForm = () => {
   adForm.classList.remove('ad-form--disabled');
-  adFormFieldsets.forEach((item) => {
-    item.disabled = false;
-  });
+  toggleElements(adFormFieldsets, false);
 };
 
-const enableActiveModeMap = () => {
+const activateFormMap = () => {
   mapFilters.classList.remove('map__filters--disabled');
-  mapFiltersFieldsets.forEach((item) => {
-    item.disabled = false;
-  });
+  toggleElements(mapFiltersFieldsets, false);
 };
 
-export {enableInactiveMode, enableActiveModeForm, enableActiveModeMap};
+export {deactivateForm, activateForm, activateFormMap};
