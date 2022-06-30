@@ -1,6 +1,6 @@
 import {generateAds} from './data.js';
 import {renderCard} from './create-card.js';
-import {enablesInactiveMode} from './form.js';
+import {enableInactiveMode} from './form.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 
@@ -9,4 +9,5 @@ const card = renderCard(ads[0]);
 
 mapCanvas.append(card);
 
-enablesInactiveMode();
+enableInactiveMode();
+
