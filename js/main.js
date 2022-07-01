@@ -9,4 +9,4 @@ const card = renderCard(ads[0]);
 
 mapCanvas.append(card);
 
-deactivateForms();
+// deactivateForms();
