@@ -20,6 +20,10 @@ const guestsNumber = form.querySelector('#capacity');
 const roomsNumber = form.querySelector('#room_number');
 const price = form.querySelector('#price');
 const type = form.querySelector('#type');
+const timeSelects = form.querySelector('.ad-form__element--time');
+const timein = form.querySelector('#timein');
+const timeout = form.querySelector('#timeout');
+
 
 const validator = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -66,6 +70,13 @@ const validateForm = () => {
   };
 
   type.addEventListener ('change', changesPlaceholder);
+
+  const synchronizesFields = (evt) => {
+    timein.value = evt.target.value;
+    timeout.value = evt.target.value;
+  };
+
+  timeSelects.addEventListener('change', synchronizesFields);
 
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
