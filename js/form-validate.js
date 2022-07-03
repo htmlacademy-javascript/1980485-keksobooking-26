@@ -68,8 +68,11 @@ const validateForm = () => {
   type.addEventListener ('change', changesPlaceholder);
 
   form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    validator.validate();
+    const isValid = validator.validate();
+
+    if (!isValid) {
+      evt.preventDefault();
+    }
   });
 };
 
