@@ -87,11 +87,18 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="title">Заголовок объявления</label>
-          <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" minlength="30" maxlength="100" required data-pristine-required-message="Обязательное текстовое поле" data-pristine-minlength-message="Минимальная длина — 30 символов" data-pristine-maxlength-message="Максимальная длина — 100 символов">
+          <input id="title" name="title" type="text"
+            placeholder="Милая, уютная квартирка в центре Токио"
+            minlength="30"
+            maxlength="100"
+            required
+            data-pristine-required-message="Обязательное поле"
+            data-pristine-minlength-message="Минимальная длина — 30 символов"
+            data-pristine-maxlength-message="Максимальная длина — 100 символов">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text" required data-pristine-required-message="Укажите адрес на карте" readonly>
+          <input id="address" name="address" type="text" readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -105,7 +112,10 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000" max="100000" required data-pristine-required-message="Обязательное числовое поле" data-pristine-max-message="Максимальное значение — 100 000">
+          <input id="price" name="price" type="number" placeholder="5000" min ="0" max="100000"
+            required
+            data-pristine-required-message="Обязательное поле"
+            data-pristine-max-message="Максимальное значение — 100 000">
           <div class="ad-form__slider"></div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
@@ -133,9 +143,9 @@
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
           <select id="capacity" name="capacity">
-            <option value="3" selected>для 3 гостей</option>
+            <option value="3">для 3 гостей</option>
             <option value="2">для 2 гостей</option>
-            <option value="1">для 1 гостя</option>
+            <option value="1" selected>для 1 гостя</option>
             <option value="0">не для гостей</option>
           </select>
         </fieldset>
