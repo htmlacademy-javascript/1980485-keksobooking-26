@@ -408,8 +408,8 @@ fieldset {
 }
 
 .ad-form__error {
-margin: 3px 0 10px;
-color: #ff0000;
+  margin: 3px 0 10px;
+  color: #ff0000;
 }
 
 .ad-form__slider.noUi-target:not(#fake-id) {
