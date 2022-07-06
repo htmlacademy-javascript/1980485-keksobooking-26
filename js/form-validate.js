@@ -18,37 +18,42 @@ const guestsNumber = form.querySelector('#capacity');
 const roomsNumber = form.querySelector('#room_number');
 const price = form.querySelector('#price');
 const type = form.querySelector('#type');
+const timeSelects = form.querySelector('.ad-form__element--time');
+const timein = form.querySelector('#timein');
+const timeout = form.querySelector('#timeout');
+
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error'
-}, false);
+});
 
 const getErrorMessage = (roomCount) => `${roomCount} ${capacityMap[roomCount].error}`;
 
-const getPriceErrorMessage = () => {
-  if (price.value < MinPrice[type.value]) {
-    return `Минимальная цена ${MinPrice[type.value]}`;
-  }
+const getPriceErrorMessage = () => `Минимальная цена ${MinPrice[type.value.toUpperCase()]}`;
+
+const onPlaceholderChanges = () => {
+  price.placeholder = MinPrice[type.value.toUpperCase()];
+  price.min = MinPrice[type.value.toUpperCase()];
 };
 
-const  initValidation = () => {
-  const validateCapacity = () => capacityMap[roomsNumber.value].value.includes(guestsNumber.value);
+const onFieldsSynchronizes = (evt) => {
+  timein.value = evt.target.value;
+  timeout.value = evt.target.value;
+};
 
+const validateCapacity = () => capacityMap[roomsNumber.value].value.includes(guestsNumber.value);
+
+const validatePrice = () => price.value >= MinPrice[type.value.toUpperCase()];
+
+const  initValidation = () => {
   pristine.addValidator(guestsNumber, validateCapacity);
   pristine.addValidator(roomsNumber, validateCapacity, getErrorMessage);
-
-  const validatePrice = () => price.value >= MinPrice[type.value.toUpperCase()];
-
   pristine.addValidator(price, validatePrice, getPriceErrorMessage);
 
-  const onPlaceholderChanges = () => {
-    price.placeholder = MinPrice[type.value.toUpperCase()];
-    price.min = MinPrice[type.value.toUpperCase()];
-  };
-
   type.addEventListener ('change', onPlaceholderChanges);
+  timeSelects.addEventListener('change', onFieldsSynchronizes);
 
   form.addEventListener('submit', (evt) => {
     if (!pristine.validate()) {
