@@ -1,7 +1,7 @@
 const adForm = document.querySelector('.ad-form');
-const adFormFieldsets = document.querySelectorAll('fieldset, select');
+const adFormFieldsets = adForm.querySelectorAll('fieldset, select');
 const mapFilters = document.querySelector('.map__filters');
-const mapFiltersFieldsets = document.querySelectorAll('fieldset, select');
+const mapFiltersFieldsets = mapFilters.querySelectorAll('fieldset, select');
 
 const toggleElements = (items, value) => {
   items.forEach((item) => {
@@ -9,7 +9,7 @@ const toggleElements = (items, value) => {
   });
 };
 
-const deactivateForm = () => {
+const deactivateForms = () => {
   adForm.classList.add('ad-form--disabled');
   mapFilters.classList.add('map__filters--disabled');
   toggleElements(adFormFieldsets, true);
@@ -21,9 +21,9 @@ const activateForm = () => {
   toggleElements(adFormFieldsets, false);
 };
 
-const activateFormMap = () => {
+const activateFilters = () => {
   mapFilters.classList.remove('map__filters--disabled');
   toggleElements(mapFiltersFieldsets, false);
 };
 
-export {deactivateForm, activateForm, activateFormMap};
+export {deactivateForms, activateForm, activateFilters};
