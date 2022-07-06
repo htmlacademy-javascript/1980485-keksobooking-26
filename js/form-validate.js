@@ -33,29 +33,27 @@ const getErrorMessage = (roomCount) => `${roomCount} ${capacityMap[roomCount].er
 
 const getPriceErrorMessage = () => `Минимальная цена ${MinPrice[type.value.toUpperCase()]}`;
 
-const  initValidation = () => {
-  const validateCapacity = () => capacityMap[roomsNumber.value].value.includes(guestsNumber.value);
+const onPlaceholderChanges = () => {
+  price.placeholder = MinPrice[type.value.toUpperCase()];
+  price.min = MinPrice[type.value.toUpperCase()];
+};
 
+const onFieldsSynchronizes = (evt) => {
+  timein.value = evt.target.value;
+  timeout.value = evt.target.value;
+};
+
+const validateCapacity = () => capacityMap[roomsNumber.value].value.includes(guestsNumber.value);
+
+const validatePrice = () => price.value >= MinPrice[type.value.toUpperCase()];
+
+const  initValidation = () => {
   pristine.addValidator(guestsNumber, validateCapacity);
   pristine.addValidator(roomsNumber, validateCapacity, getErrorMessage);
-
-  const validatePrice = () => price.value >= MinPrice[type.value.toUpperCase()];
-
   pristine.addValidator(price, validatePrice, getPriceErrorMessage);
 
-  const onPlaceholderChanges = () => {
-    price.placeholder = MinPrice[type.value.toUpperCase()];
-    price.min = MinPrice[type.value.toUpperCase()];
-  };
-
   type.addEventListener ('change', onPlaceholderChanges);
-
-  const synchronizesFields = (evt) => {
-    timein.value = evt.target.value;
-    timeout.value = evt.target.value;
-  };
-
-  timeSelects.addEventListener('change', synchronizesFields);
+  timeSelects.addEventListener('change', onFieldsSynchronizes);
 
   form.addEventListener('submit', (evt) => {
     if (!pristine.validate()) {
