@@ -27,15 +27,11 @@ const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error'
-}, false);
+});
 
 const getErrorMessage = (roomCount) => `${roomCount} ${capacityMap[roomCount].error}`;
 
-const getPriceErrorMessage = () => {
-  if (price.value < MinPrice[type.value]) {
-    return `Минимальная цена ${MinPrice[type.value]}`;
-  }
-};
+const getPriceErrorMessage = () => `Минимальная цена ${MinPrice[type.value.toUpperCase()]}`;
 
 const  initValidation = () => {
   const validateCapacity = () => capacityMap[roomsNumber.value].value.includes(guestsNumber.value);
