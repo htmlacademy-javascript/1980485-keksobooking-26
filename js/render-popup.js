@@ -1,7 +1,7 @@
 import {getDeclensionWords} from './util.js';
 
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const photo = cardTemplate.querySelector('.popup__photo');
+const balloonTemplate = document.querySelector('#card').content.querySelector('.popup');
+const photo = balloonTemplate.querySelector('.popup__photo');
 
 const typeDictionary = {
   flat: 'Квартира',
@@ -32,7 +32,7 @@ const createPhotos = (elements, container) => {
   });
 };
 
-const renderCard = ({offer, author}) => {
+const renderPopup = ({offer, author}) => {
 
   const {
     title,
@@ -48,17 +48,17 @@ const renderCard = ({offer, author}) => {
     photos
   } = offer;
 
-  const cardElement = cardTemplate.cloneNode(true);
-  const containerPhotos = cardElement.querySelector('.popup__photos');
-  const containerFeatures = cardElement.querySelector('.popup__features');
-  cardElement.querySelector('.popup__title').textContent = title;
-  cardElement.querySelector('.popup__text--address').textContent = address;
-  cardElement.querySelector('.popup__text--price').insertAdjacentHTML('afterbegin', `${price} `);
-  cardElement.querySelector('.popup__type').textContent =  typeDictionary[type];
-  cardElement.querySelector('.popup__text--capacity').textContent = `${rooms} ${getDeclensionWords(rooms, declensionWordsMap.rooms)} для ${guests} ${getDeclensionWords(guests, declensionWordsMap.guests)}`;
-  cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
-  const popupDescription = cardElement.querySelector('.popup__description');
-  cardElement.querySelector('.popup__avatar').src = author.avatar;
+  const popupElement = balloonTemplate.cloneNode(true);
+  const containerPhotos = popupElement.querySelector('.popup__photos');
+  const containerFeatures = popupElement.querySelector('.popup__features');
+  popupElement.querySelector('.popup__title').textContent = title;
+  popupElement.querySelector('.popup__text--address').textContent = address;
+  popupElement.querySelector('.popup__text--price').insertAdjacentHTML('afterbegin', `${price} `);
+  popupElement.querySelector('.popup__type').textContent =  typeDictionary[type];
+  popupElement.querySelector('.popup__text--capacity').textContent = `${rooms} ${getDeclensionWords(rooms, declensionWordsMap.rooms)} для ${guests} ${getDeclensionWords(guests, declensionWordsMap.guests)}`;
+  popupElement.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
+  const popupDescription = popupElement.querySelector('.popup__description');
+  popupElement.querySelector('.popup__avatar').src = author.avatar;
 
   if (!features) {
     containerFeatures.remove();
@@ -80,7 +80,7 @@ const renderCard = ({offer, author}) => {
     createPhotos(photos, containerPhotos);
   }
 
-  return cardElement;
+  return popupElement;
 };
 
-export {renderCard};
+export {renderPopup};

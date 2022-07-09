@@ -1,5 +1,6 @@
 import {activateForm} from './form.js';
 import {generateAds} from './data.js';
+import {renderPopup} from './render-popup.js';
 
 const mapCoordinates = {
   lat: 35.68949,
@@ -22,6 +23,8 @@ const pinIcon = L.icon({
   iconAnchor: [pinSize / 2, pinSize],
 });
 
+const offers = generateAds();
+
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
@@ -30,10 +33,8 @@ const onMapLoad = () => {
   activateForm();
 };
 
-const offers = generateAds();
-
 const createMarkers = (ads) => {
-  ads.forEach((ad) => {
+  ads.forEach((ad, index) => {
     const {location} = ad;
 
     const marker = L.marker({
@@ -44,10 +45,11 @@ const createMarkers = (ads) => {
       icon: pinIcon
     });
 
-    marker.addTo(map);
+    marker
+      .addTo(map)
+      .bindPopup(renderPopup(offers[index]));
   });
 };
-
 
 const loadMap = () => {
   map
