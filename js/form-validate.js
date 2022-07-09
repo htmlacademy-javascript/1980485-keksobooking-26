@@ -62,4 +62,4 @@ const  initValidation = () => {
   });
 };
 
-export {initValidation};
+export {initValidation, MinPrice};
