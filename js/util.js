@@ -58,5 +58,5 @@ export {
   getRandomArrayElement,
   getShuffledArray,
   getRandomArrayElements,
-  getDeclensionWords
+  getDeclensionWords,
 };
