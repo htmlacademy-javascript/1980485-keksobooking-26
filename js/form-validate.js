@@ -5,12 +5,15 @@ const capacityMap = {
   100: {value: ['0'], error: 'комнат не предназначены для гостей'}
 };
 
-const MinPrice = {
-  BUNGALOW: 0,
-  FLAT: 1000,
-  HOTEL: 3000,
-  HOUSE: 5000,
-  PALACE: 10000
+const Price = {
+  MIN: {
+    bungalow: 0,
+    flat: 1000,
+    hotel: 3000,
+    house: 5000,
+    palace: 10000
+  },
+  MAX: 100000
 };
 
 const form = document.querySelector('.ad-form');
@@ -31,11 +34,11 @@ const pristine = new Pristine(form, {
 
 const getErrorMessage = (roomCount) => `${roomCount} ${capacityMap[roomCount].error}`;
 
-const getPriceErrorMessage = () => `Минимальная цена ${MinPrice[type.value.toUpperCase()]}`;
+const getPriceErrorMessage = () => `Минимальная цена ${Price.MIN[type.value]}`;
 
 const onPlaceholderChanges = () => {
-  price.placeholder = MinPrice[type.value.toUpperCase()];
-  price.min = MinPrice[type.value.toUpperCase()];
+  price.placeholder = Price.MIN[type.value];
+  price.min = Price.MIN[type.value];
 };
 
 const onFieldsSynchronizes = (evt) => {
@@ -45,7 +48,7 @@ const onFieldsSynchronizes = (evt) => {
 
 const validateCapacity = () => capacityMap[roomsNumber.value].value.includes(guestsNumber.value);
 
-const validatePrice = () => price.value >= MinPrice[type.value.toUpperCase()];
+const validatePrice = () => price.value >= Price.MIN[type.value];
 
 const  initValidation = () => {
   pristine.addValidator(guestsNumber, validateCapacity);
@@ -62,4 +65,4 @@ const  initValidation = () => {
   });
 };
 
-export {initValidation};
+export {initValidation, Price};
