@@ -38,7 +38,7 @@ const onMapLoad = () => {
   address.value = `${MapCoordinates.LAT} ${MapCoordinates.LNG}`;
 };
 
-const markerGroup = L.layerGroup().addTo(map);
+const layerGroup = L.layerGroup().addTo(map);
 
 const renderMarkers = (ads) => {
   ads.forEach((ad) => {
@@ -53,7 +53,7 @@ const renderMarkers = (ads) => {
     });
 
     marker
-      .addTo(markerGroup)
+      .addTo(layerGroup)
       .bindPopup(renderPopup(ad));
   });
 };
