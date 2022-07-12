@@ -1,5 +1,4 @@
 import {activateForm} from './form.js';
-import {generateAds} from './data.js';
 import {renderPopup} from './render-popup.js';
 
 const MapCoordinates = {
@@ -31,7 +30,6 @@ const pinIcon = L.icon({
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
 
-const offers = generateAds();
 
 const onMapLoad = () => {
   activateForm();
@@ -58,7 +56,7 @@ const renderMarkers = (ads) => {
   });
 };
 
-const loadMap = () => {
+const loadMap = (data) => {
   map
     .on('load', onMapLoad)
     .setView({
@@ -86,7 +84,7 @@ const loadMap = () => {
     address.value = `${lat.toFixed(5)} ${lng.toFixed(5)}`;
   });
 
-  renderMarkers(offers);
+  renderMarkers(data);
 };
 
 export {loadMap};
