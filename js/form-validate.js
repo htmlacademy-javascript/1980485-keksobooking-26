@@ -61,4 +61,4 @@ const  initValidation = () => {
   return pristine.validate();
 };
 
-export {initValidation, Price};
+export {initValidation, Price, pristine};

@@ -1,4 +1,4 @@
-import {initValidation} from './form-validate.js';
+import {initValidation, pristine} from './form-validate.js';
 import {sendData} from './api.js';
 import {resetMap} from './map.js';
 
@@ -50,6 +50,7 @@ const getSuccessMessage = () => {
     }
   });
 
+  pristine.reset();
   adForm.reset();
   resetMap();
   adFormSubmit.disabled = false;
@@ -86,6 +87,7 @@ const setUserFormSubmit = (onSuccess) => {
 const onFormReset = () => {
   adForm.reset();
   resetMap();
+  pristine.reset();
 };
 
 adForm.addEventListener('reset', onFormReset);
