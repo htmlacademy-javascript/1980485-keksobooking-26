@@ -1,5 +1,6 @@
 import {initValidation} from './form-validate.js';
 import {sendData} from './api.js';
+import {resetMap} from './map.js';
 
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset, select');
@@ -10,6 +11,7 @@ const success = document.querySelector('#success').content.querySelector('.succe
 const error = document.querySelector('#error').content.querySelector('.error');
 const body = document.querySelector('body');
 const buttonError = error.querySelector('.error__button');
+
 
 const toggleElements = (items, value) => {
   items.forEach((item) => {
@@ -37,15 +39,19 @@ const activateFilters = () => {
 const getSuccessMessage = () => {
   const successMessage = success.cloneNode(true);
   body.appendChild(successMessage);
+
   document.addEventListener('click', () => {
     successMessage.remove();
   });
+
   document.addEventListener('keydown',(evt) => {
     if (evt.key === 'Escape') {
       successMessage.remove();
     }
   });
+
   adForm.reset();
+  resetMap();
   adFormSubmit.disabled = false;
 };
 
@@ -76,5 +82,12 @@ const setUserFormSubmit = (onSuccess) => {
     }
   });
 };
+
+const onFormReset = () => {
+  adForm.reset();
+  resetMap();
+};
+
+adForm.addEventListener('reset', onFormReset);
 
 export {deactivateForms, activateForm, activateFilters, setUserFormSubmit, getSuccessMessage};
