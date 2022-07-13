@@ -29,11 +29,11 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail('Ошибка отправки данных. Попробуйте ещё раз');
+        onFail();
       }
     })
     .catch(() => {
-      onFail('Ошибка отправки данных. Попробуйте ещё раз');
+      showAlert('Ошибка отправки данных. Попробуйте ещё раз');
     });
 };
 

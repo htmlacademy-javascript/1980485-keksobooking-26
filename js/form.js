@@ -12,7 +12,6 @@ const error = document.querySelector('#error').content.querySelector('.error');
 const body = document.querySelector('body');
 const buttonError = error.querySelector('.error__button');
 
-
 const toggleElements = (items, value) => {
   items.forEach((item) => {
     item.disabled = value;

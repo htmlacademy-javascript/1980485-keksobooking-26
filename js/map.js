@@ -70,8 +70,10 @@ const renderMarkers = (ads) => {
 const resetMap = () => {
   mainPinMarker.setLatLng({lat: MapCoordinates.LAT, lng: MapCoordinates.LNG});
   map.setView({lat: MapCoordinates.LAT, lng: MapCoordinates.LNG}, MAP_SCALE);
-  address.value = addressDefault;
   map.closePopup();
+  setTimeout(() => {
+    address.value = addressDefault;
+  }, 0);
 };
 
 const loadMap = (data) => {
