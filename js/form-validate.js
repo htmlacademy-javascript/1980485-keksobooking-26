@@ -58,11 +58,7 @@ const  initValidation = () => {
   type.addEventListener ('change', onPlaceholderChanges);
   timeSelects.addEventListener('change', onFieldsSynchronizes);
 
-  form.addEventListener('submit', (evt) => {
-    if (!pristine.validate()) {
-      evt.preventDefault();
-    }
-  });
+  return pristine.validate();
 };
 
 export {initValidation, Price};

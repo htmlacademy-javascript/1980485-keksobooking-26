@@ -57,7 +57,7 @@ const getDeclensionWords = (value, words) => {
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '1';
-  alertContainer.style.position = 'absolute';
+  alertContainer.style.position = 'fixed';
   alertContainer.style.left = '0';
   alertContainer.style.top = '0';
   alertContainer.style.width = '100%';
