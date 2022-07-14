@@ -60,7 +60,7 @@ const renderPopup = ({offer, author}) => {
   const popupDescription = popupElement.querySelector('.popup__description');
   popupElement.querySelector('.popup__avatar').src = author.avatar;
 
-  if (!features) {
+  if (!Array.isArray (features)) {
     containerFeatures.remove();
   } else {
     containerFeatures.innerHTML = '';
@@ -73,7 +73,7 @@ const renderPopup = ({offer, author}) => {
     popupDescription.textContent = description;
   }
 
-  if (!photo) {
+  if (!Array.isArray (photos)) {
     containerPhotos.remove();
   } else {
     containerPhotos.innerHTML = '';

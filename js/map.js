@@ -1,4 +1,5 @@
-import {activateForm} from './form.js';
+import {getData} from './api.js';
+import {activateForm, activateFilters} from './form.js';
 import {renderPopup} from './render-popup.js';
 
 const MapCoordinates = {
@@ -14,7 +15,7 @@ const MAP_ATTRIBUTION = {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 };
 
-const addressDefault = `${MapCoordinates.LAT} ${MapCoordinates.LNG}`;
+const ADDRESS_DEFAULT = `${MapCoordinates.LAT}, ${MapCoordinates.LNG}`;
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -42,11 +43,6 @@ const pinIcon = L.icon({
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
 
-const onMapLoad = () => {
-  activateForm();
-  address.value = addressDefault;
-};
-
 const layerGroup = L.layerGroup().addTo(map);
 
 const renderMarkers = (ads) => {
@@ -72,11 +68,22 @@ const resetMap = () => {
   map.setView({lat: MapCoordinates.LAT, lng: MapCoordinates.LNG}, MAP_SCALE);
   map.closePopup();
   setTimeout(() => {
-    address.value = addressDefault;
+    address.value = ADDRESS_DEFAULT;
   }, 0);
 };
 
-const loadMap = (data) => {
+const onLoadDataSuccess = (data) => {
+  renderMarkers(data);
+  activateFilters();
+};
+
+const onMapLoad = () => {
+  activateForm();
+  address.value = ADDRESS_DEFAULT;
+  getData(onLoadDataSuccess);
+};
+
+const loadMap = () => {
   map
     .on('load', onMapLoad)
     .setView({
@@ -92,8 +99,6 @@ const loadMap = (data) => {
     const {lat, lng} = evt.target.getLatLng();
     address.value = `${lat.toFixed(5)} ${lng.toFixed(5)}`;
   });
-
-  renderMarkers(data);
 };
 
-export {loadMap, addressDefault, resetMap};
+export {loadMap, ADDRESS_DEFAULT, resetMap};

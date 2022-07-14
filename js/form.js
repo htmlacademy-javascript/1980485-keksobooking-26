@@ -1,4 +1,4 @@
-import {initValidation, pristine} from './form-validate.js';
+import {resetValidation, validateForm} from './form-validate.js';
 import {sendData} from './api.js';
 import {resetMap} from './map.js';
 
@@ -10,7 +10,6 @@ const adFormSubmit = adForm.querySelector('.ad-form__submit');
 const success = document.querySelector('#success').content.querySelector('.success');
 const error = document.querySelector('#error').content.querySelector('.error');
 const body = document.querySelector('body');
-const buttonError = error.querySelector('.error__button');
 
 const toggleElements = (items, value) => {
   items.forEach((item) => {
@@ -35,60 +34,87 @@ const activateFilters = () => {
   toggleElements(mapFiltersFieldsets, false);
 };
 
-const getSuccessMessage = () => {
+const setSubmitButtonState = (value) => {
+  adFormSubmit.disabled = value;
+};
+
+const reset = () => {
+  adForm.reset();
+  resetMap();
+  resetValidation();
+};
+
+const showSuccessMessage = () => {
   const successMessage = success.cloneNode(true);
   body.appendChild(successMessage);
 
-  document.addEventListener('click', () => {
+  const onDocumentClick = () => {
     successMessage.remove();
-  });
+    document.removeEventListener('click', onDocumentClick);
+  };
 
-  document.addEventListener('keydown',(evt) => {
+  const onDocumentKeydown = (evt) => {
     if (evt.key === 'Escape') {
       successMessage.remove();
     }
-  });
 
-  pristine.reset();
-  adForm.reset();
-  resetMap();
-  adFormSubmit.disabled = false;
+    document.removeEventListener('keydown', onDocumentKeydown);
+  };
+
+  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const getErrorMessage = () => {
+const showErrorMessage = () => {
   const errorMessage = error.cloneNode(true);
   body.appendChild(errorMessage);
-  document.addEventListener('click', () => {
+
+  const onDocumentClick = () => {
     errorMessage.remove();
-  });
-  document.addEventListener('keydown',(evt) => {
+    document.removeEventListener('click', onDocumentClick);
+  };
+
+  const onDocumentKeydown = (evt) => {
     if (evt.key === 'Escape') {
       errorMessage.remove();
     }
-  });
-  buttonError.querySelector('click', () => {
-    errorMessage.remove();
-  });
-  adFormSubmit.disabled = false;
+
+    document.removeEventListener('keydown', onDocumentKeydown);
+  };
+
+  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+
+  setSubmitButtonState(false);
 };
 
-const setUserFormSubmit = (onSuccess) => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = initValidation();
-    if (isValid) {
-      adFormSubmit.disabled = true;
-      sendData(() => onSuccess(), getErrorMessage, new FormData(evt.target),);
-    }
-  });
+const onSendSuccess = () => {
+  setSubmitButtonState(false);
+  showSuccessMessage();
+  reset();
+};
+
+const onSendFailure = () => {
+  adFormSubmit.disabled = false;
+  showErrorMessage();
 };
 
 const onFormReset = () => {
-  adForm.reset();
-  resetMap();
-  pristine.reset();
+  reset();
+};
+
+const setFormListener = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = validateForm();
+
+    if (isValid) {
+      adFormSubmit.disabled = true;
+      sendData(onSendSuccess, onSendFailure, new FormData(evt.target));
+    }
+  });
 };
 
 adForm.addEventListener('reset', onFormReset);
 
-export {deactivateForms, activateForm, activateFilters, setUserFormSubmit, getSuccessMessage};
+export {deactivateForms, activateForm, activateFilters, setFormListener};

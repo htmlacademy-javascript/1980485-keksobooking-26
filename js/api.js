@@ -1,25 +1,29 @@
 import {showAlert} from './util.js';
 
+const API_URL = 'https://26.javascript.pages.academy/keksobooking';
+const LOAD_ERROR_MESSAGE = 'Ошибка загрузки данных. Попробуйте перезагрузить страницу.';
+const SEND_ERROR_MESSAGE = 'Ошибка отправки данных. Попробуйте ещё раз';
+
 const getData = (onSuccess) => {
-  fetch('https://26.javascript.pages.academy/keksobooking/data')
+  fetch(`${API_URL}/data`)
     .then((response) => {
       if (response.ok) {
         return response.json();
       }
 
-      showAlert('Ошибка загрузки данных. Попробуйте перезагрузить страницу.');
+      showAlert(LOAD_ERROR_MESSAGE);
     })
     .then((data) => {
       onSuccess(data);
     })
     .catch(() => {
-      showAlert('Ошибка загрузки данных. Попробуйте перезагрузить страницу.');
+      showAlert(LOAD_ERROR_MESSAGE);
     });
 };
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://26.javascript.pages.academy/keksobooking',
+    API_URL,
     {
       method: 'POST',
       body: body
@@ -33,7 +37,7 @@ const sendData = (onSuccess, onFail, body) => {
       }
     })
     .catch(() => {
-      showAlert('Ошибка отправки данных. Попробуйте ещё раз');
+      showAlert(SEND_ERROR_MESSAGE);
     });
 };
 
