@@ -1,5 +1,5 @@
-import {activateForm} from './form.js';
-import {generateAds} from './data.js';
+import {getData} from './api.js';
+import {activateForm, activateFilters} from './form.js';
 import {renderPopup} from './render-popup.js';
 
 const MapCoordinates = {
@@ -15,12 +15,24 @@ const MAP_ATTRIBUTION = {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 };
 
+const ADDRESS_DEFAULT = `${MapCoordinates.LAT}, ${MapCoordinates.LNG}`;
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [MAIN_PIN_SIZE, MAIN_PIN_SIZE],
   iconAnchor: [MAIN_PIN_SIZE / 2, MAIN_PIN_SIZE],
 });
+
+const mainPinMarker = L.marker(
+  {
+    lat: MapCoordinates.LAT,
+    lng: MapCoordinates.LNG
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon
+  }
+);
 
 const pinIcon = L.icon({
   iconUrl: 'img/pin.svg',
@@ -30,13 +42,6 @@ const pinIcon = L.icon({
 
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
-
-const offers = generateAds();
-
-const onMapLoad = () => {
-  activateForm();
-  address.value = `${MapCoordinates.LAT} ${MapCoordinates.LNG}`;
-};
 
 const layerGroup = L.layerGroup().addTo(map);
 
@@ -58,6 +63,26 @@ const renderMarkers = (ads) => {
   });
 };
 
+const resetMap = () => {
+  mainPinMarker.setLatLng({lat: MapCoordinates.LAT, lng: MapCoordinates.LNG});
+  map.setView({lat: MapCoordinates.LAT, lng: MapCoordinates.LNG}, MAP_SCALE);
+  map.closePopup();
+  setTimeout(() => {
+    address.value = ADDRESS_DEFAULT;
+  }, 0);
+};
+
+const onLoadDataSuccess = (data) => {
+  renderMarkers(data);
+  activateFilters();
+};
+
+const onMapLoad = () => {
+  activateForm();
+  address.value = ADDRESS_DEFAULT;
+  getData(onLoadDataSuccess);
+};
+
 const loadMap = () => {
   map
     .on('load', onMapLoad)
@@ -68,25 +93,12 @@ const loadMap = () => {
 
   L.tileLayer(MAP_LAYER, MAP_ATTRIBUTION).addTo(map);
 
-  const mainPinMarker = L.marker(
-    {
-      lat: MapCoordinates.LAT,
-      lng: MapCoordinates.LNG
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon
-    }
-  );
-
   mainPinMarker.addTo(map);
 
   mainPinMarker.on('move', (evt) => {
     const {lat, lng} = evt.target.getLatLng();
     address.value = `${lat.toFixed(5)} ${lng.toFixed(5)}`;
   });
-
-  renderMarkers(offers);
 };
 
-export {loadMap};
+export {loadMap, ADDRESS_DEFAULT, resetMap};

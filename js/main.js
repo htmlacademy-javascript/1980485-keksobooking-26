@@ -1,12 +1,17 @@
 import {createSlider} from './slider.js';
 import {loadMap} from './map.js';
-import {deactivateForms} from './form.js';
 import {initValidation} from './form-validate.js';
-
-initValidation();
+import {deactivateForms, setFormListener} from './form.js';
 
 deactivateForms();
 
+createSlider();
+
+initValidation();
+
+setFormListener();
+
 loadMap();
 
-createSlider();
+setFormListener();
+

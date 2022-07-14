@@ -1,3 +1,5 @@
+const ALERT_SHOW_TIME = 5000;
+
 const getRandomNumber = (min, max) => {
   if (min > max || min < 0) {
     throw new RangeError('Задан неверный диапазон! Укажите другие числа.');
@@ -52,6 +54,26 @@ const getDeclensionWords = (value, words) => {
   return words[2];
 };
 
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '1';
+  alertContainer.style.position = 'fixed';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.width = '100%';
+  alertContainer.style.padding = '15px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = '#ff0000';
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
 export {
   getRandomNumber,
   getRandomFractional,
@@ -59,4 +81,5 @@ export {
   getShuffledArray,
   getRandomArrayElements,
   getDeclensionWords,
+  showAlert
 };
