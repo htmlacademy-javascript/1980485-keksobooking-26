@@ -2,6 +2,7 @@ import {getData} from './api.js';
 import {activateForm, activateFilters} from './form.js';
 import {renderPopup} from './render-popup.js';
 import {filterAds, ADS_COUNT} from './form-filters.js';
+import {debounce} from './util.js';
 
 const MapCoordinates = {
   LAT: 35.68949,
@@ -17,6 +18,8 @@ const MAP_ATTRIBUTION = {
 };
 
 const ADDRESS_DEFAULT = `${MapCoordinates.LAT}, ${MapCoordinates.LNG}`;
+
+const RERENDER_DELAY = 500;
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -103,9 +106,11 @@ const loadMap = () => {
   });
 };
 
-mapFilters.addEventListener('change', () => {
+const onMapFiltersChange = () => {
   layerGroup.clearLayers();
   renderMarkers(filterAds());
-});
+};
+
+mapFilters.addEventListener('change', debounce(onMapFiltersChange, RERENDER_DELAY));
 
 export {loadMap, ADDRESS_DEFAULT, resetMap};
