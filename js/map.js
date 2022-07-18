@@ -1,6 +1,7 @@
 import {getData} from './api.js';
 import {activateForm, activateFilters} from './form.js';
 import {renderPopup} from './render-popup.js';
+import {filterAds, ADS_COUNT} from './form-filters.js';
 
 const MapCoordinates = {
   LAT: 35.68949,
@@ -42,6 +43,7 @@ const pinIcon = L.icon({
 
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
+const mapFilters = document.querySelector('.map__filters');
 
 const layerGroup = L.layerGroup().addTo(map);
 
@@ -73,7 +75,7 @@ const resetMap = () => {
 };
 
 const onLoadDataSuccess = (data) => {
-  renderMarkers(data);
+  renderMarkers(data.slice(0, ADS_COUNT));
   activateFilters();
 };
 
@@ -100,5 +102,10 @@ const loadMap = () => {
     address.value = `${lat.toFixed(5)} ${lng.toFixed(5)}`;
   });
 };
+
+mapFilters.addEventListener('change', () => {
+  layerGroup.clearLayers();
+  renderMarkers(filterAds());
+});
 
 export {loadMap, ADDRESS_DEFAULT, resetMap};
