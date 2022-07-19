@@ -1,8 +1,7 @@
 import {getData} from './api.js';
 import {activateForm, activateFilters} from './form.js';
 import {renderPopup} from './render-popup.js';
-import {filterAds, ADS_COUNT} from './form-filters.js';
-import {debounce} from './util.js';
+import {setFilterListener, ADS_COUNT} from './form-filters.js';
 
 const MapCoordinates = {
   LAT: 35.68949,
@@ -18,8 +17,6 @@ const MAP_ATTRIBUTION = {
 };
 
 const ADDRESS_DEFAULT = `${MapCoordinates.LAT}, ${MapCoordinates.LNG}`;
-
-const RERENDER_DELAY = 500;
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -46,7 +43,6 @@ const pinIcon = L.icon({
 
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
-const mapFilters = document.querySelector('.map__filters');
 
 const layerGroup = L.layerGroup().addTo(map);
 
@@ -80,6 +76,7 @@ const resetMap = () => {
 const onLoadDataSuccess = (data) => {
   renderMarkers(data.slice(0, ADS_COUNT));
   activateFilters();
+  setFilterListener(data);
 };
 
 const onMapLoad = () => {
@@ -106,11 +103,4 @@ const loadMap = () => {
   });
 };
 
-const onMapFiltersChange = () => {
-  layerGroup.clearLayers();
-  renderMarkers(filterAds());
-};
-
-mapFilters.addEventListener('change', debounce(onMapFiltersChange, RERENDER_DELAY));
-
-export {loadMap, ADDRESS_DEFAULT, resetMap};
+export {loadMap, ADDRESS_DEFAULT, resetMap, renderMarkers, layerGroup};
