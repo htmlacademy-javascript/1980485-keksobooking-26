@@ -1,6 +1,6 @@
 import {renderMarkers} from './map.js';
 import {debounce} from './util.js';
-import {layerGroup} from './map.js';
+import {clearMarkers} from './map.js';
 
 const ADS_COUNT = 10;
 const PriceValue = {
@@ -14,8 +14,6 @@ const housingPrice = mapFilters.querySelector('#housing-price');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
 const housingFeatures = mapFilters.querySelector('#housing-features');
-
-let ads = [];
 
 const fiterByType = (ad, type) => type === 'any' || ad.offer.type === type;
 
@@ -46,7 +44,6 @@ const filterByFeatures = (ad, features) => {
 };
 
 const filterAds = (data) => {
-  ads = data;
   const selectedType = housingType.value;
   const selectedPrice = housingPrice.value;
   const selectedRooms = housingRooms.value;
@@ -55,7 +52,7 @@ const filterAds = (data) => {
 
   const filteredAds = [];
 
-  for (const ad of ads) {
+  for (const ad of data) {
     if (filteredAds.length >= ADS_COUNT) {
       break;
     }
@@ -74,11 +71,14 @@ const filterAds = (data) => {
   return filteredAds;
 };
 
+const onFilterChange = (data) =>{
+  clearMarkers();
+  const filteredMarkers = filterAds(data);
+  renderMarkers(filteredMarkers);
+};
+
 const setFilterListener = (data) => {
-  mapFilters.addEventListener('change', () => {
-    layerGroup.clearLayers();
-    debounce(() => renderMarkers(filterAds(data)));
-  });
+  mapFilters.addEventListener('change', debounce(() => onFilterChange(data)));
 };
 
 export {filterAds, ADS_COUNT, setFilterListener};

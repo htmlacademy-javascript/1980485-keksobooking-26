@@ -46,6 +46,10 @@ const address = document.querySelector('#address');
 
 const layerGroup = L.layerGroup().addTo(map);
 
+const clearMarkers = () => {
+  layerGroup.clearLayers();
+};
+
 const renderMarkers = (ads) => {
   ads.forEach((ad) => {
     const {location} = ad;
@@ -103,4 +107,4 @@ const loadMap = () => {
   });
 };
 
-export {loadMap, ADDRESS_DEFAULT, resetMap, renderMarkers, layerGroup};
+export {loadMap, ADDRESS_DEFAULT, resetMap, renderMarkers, clearMarkers};
