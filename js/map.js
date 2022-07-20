@@ -1,6 +1,7 @@
 import {getData} from './api.js';
 import {activateForm, activateFilters} from './form.js';
 import {renderPopup} from './render-popup.js';
+import {setFilterListener, ADS_COUNT} from './form-filters.js';
 
 const MapCoordinates = {
   LAT: 35.68949,
@@ -45,6 +46,10 @@ const address = document.querySelector('#address');
 
 const layerGroup = L.layerGroup().addTo(map);
 
+const clearMarkers = () => {
+  layerGroup.clearLayers();
+};
+
 const renderMarkers = (ads) => {
   ads.forEach((ad) => {
     const {location} = ad;
@@ -73,8 +78,9 @@ const resetMap = () => {
 };
 
 const onLoadDataSuccess = (data) => {
-  renderMarkers(data);
+  renderMarkers(data.slice(0, ADS_COUNT));
   activateFilters();
+  setFilterListener(data);
 };
 
 const onMapLoad = () => {
@@ -101,4 +107,4 @@ const loadMap = () => {
   });
 };
 
-export {loadMap, ADDRESS_DEFAULT, resetMap};
+export {loadMap, ADDRESS_DEFAULT, resetMap, renderMarkers, clearMarkers};
