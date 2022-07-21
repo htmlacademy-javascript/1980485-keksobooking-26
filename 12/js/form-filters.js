@@ -1,6 +1,5 @@
-import {renderMarkers} from './map.js';
 import {debounce} from './util.js';
-import {clearMarkers} from './map.js';
+import {clearMarkers, renderMarkers, renderDefaultMarkers} from './map.js';
 
 const ADS_COUNT = 10;
 const PriceValue = {
@@ -9,11 +8,13 @@ const PriceValue = {
 };
 
 const mapFilters = document.querySelector('.map__filters');
+const filterSelects = mapFilters.querySelectorAll('select');
 const housingType = mapFilters.querySelector('#housing-type');
 const housingPrice = mapFilters.querySelector('#housing-price');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
 const housingFeatures = mapFilters.querySelector('#housing-features');
+const filterCheckboxes = housingFeatures.querySelectorAll('input');
 
 const fiterByType = (ad, type) => type === 'any' || ad.offer.type === type;
 
@@ -81,4 +82,16 @@ const setFilterListener = (data) => {
   mapFilters.addEventListener('change', debounce(() => onFilterChange(data)));
 };
 
-export {filterAds, ADS_COUNT, setFilterListener};
+const resetFilters = () => {
+  filterSelects.forEach((filterSelect) => {
+    filterSelect.value = 'any';
+  });
+
+  filterCheckboxes.forEach((filterCheckbox) => {
+    filterCheckbox.checked = false;
+  });
+
+  renderDefaultMarkers();
+};
+
+export {filterAds, ADS_COUNT, setFilterListener, resetFilters};

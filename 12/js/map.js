@@ -44,6 +44,8 @@ const pinIcon = L.icon({
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
 
+let renderDefaultMarkers;
+
 const layerGroup = L.layerGroup().addTo(map);
 
 const clearMarkers = () => {
@@ -81,6 +83,10 @@ const onLoadDataSuccess = (data) => {
   renderMarkers(data.slice(0, ADS_COUNT));
   activateFilters();
   setFilterListener(data);
+
+  renderDefaultMarkers = () => {
+    renderMarkers(data.slice(0, ADS_COUNT));
+  };
 };
 
 const onMapLoad = () => {
@@ -107,4 +113,4 @@ const loadMap = () => {
   });
 };
 
-export {loadMap, ADDRESS_DEFAULT, resetMap, renderMarkers, clearMarkers};
+export {loadMap, ADDRESS_DEFAULT, resetMap, renderMarkers, clearMarkers, renderDefaultMarkers};
