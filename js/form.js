@@ -2,6 +2,7 @@ import {resetValidation, validateForm} from './form-validate.js';
 import {sendData} from './api.js';
 import {resetMap} from './map.js';
 import {resetPreview} from './load-images.js';
+import {resetFilters} from './form-filters.js';
 
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset, select');
@@ -103,6 +104,7 @@ const onSendFailure = () => {
 const onFormReset = () => {
   reset();
   resetPreview();
+  resetFilters();
 };
 
 const setFormListener = () => {
