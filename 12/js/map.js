@@ -8,7 +8,7 @@ const MapCoordinates = {
   LNG: 139.69171
 };
 
-const MAP_SCALE = 10;
+const MAP_SCALE = 12;
 const MAIN_PIN_SIZE = 52;
 const PIN_SIZE = 40;
 const MAP_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
