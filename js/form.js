@@ -4,14 +4,14 @@ import {resetMap} from './map.js';
 import {resetPreview} from './load-images.js';
 import {resetFilters} from './form-filters.js';
 
-const adForm = document.querySelector('.ad-form');
-const adFormFieldsets = adForm.querySelectorAll('fieldset, select');
-const mapFilters = document.querySelector('.map__filters');
-const mapFiltersFieldsets = mapFilters.querySelectorAll('fieldset, select');
-const adFormSubmit = adForm.querySelector('.ad-form__submit');
-const success = document.querySelector('#success').content.querySelector('.success');
-const error = document.querySelector('#error').content.querySelector('.error');
-const body = document.querySelector('body');
+const formElement = document.querySelector('.ad-form');
+const aFormFieldsetsElement = formElement.querySelectorAll('fieldset, select');
+const mapFiltersElement = document.querySelector('.map__filters');
+const mapFiltersFieldsetsElement = mapFiltersElement.querySelectorAll('fieldset, select');
+const formSubmitElement = formElement.querySelector('.ad-form__submit');
+const successElement = document.querySelector('#success').content.querySelector('.success');
+const errorElement = document.querySelector('#error').content.querySelector('.error');
+const bodyElement = document.querySelector('body');
 
 const toggleElements = (items, value) => {
   items.forEach((item) => {
@@ -20,35 +20,35 @@ const toggleElements = (items, value) => {
 };
 
 const deactivateForms = () => {
-  adForm.classList.add('ad-form--disabled');
-  mapFilters.classList.add('map__filters--disabled');
-  toggleElements(adFormFieldsets, true);
-  toggleElements(mapFiltersFieldsets, true);
+  formElement.classList.add('ad-form--disabled');
+  mapFiltersElement.classList.add('map__filters--disabled');
+  toggleElements(aFormFieldsetsElement, true);
+  toggleElements(mapFiltersFieldsetsElement, true);
 };
 
 const activateForm = () => {
-  adForm.classList.remove('ad-form--disabled');
-  toggleElements(adFormFieldsets, false);
+  formElement.classList.remove('ad-form--disabled');
+  toggleElements(aFormFieldsetsElement, false);
 };
 
 const activateFilters = () => {
-  mapFilters.classList.remove('map__filters--disabled');
-  toggleElements(mapFiltersFieldsets, false);
+  mapFiltersElement.classList.remove('map__filters--disabled');
+  toggleElements(mapFiltersFieldsetsElement, false);
 };
 
 const setSubmitButtonState = (value) => {
-  adFormSubmit.disabled = value;
+  formSubmitElement.disabled = value;
 };
 
 const reset = () => {
-  adForm.reset();
+  formElement.reset();
   resetMap();
   resetValidation();
 };
 
 const showSuccessMessage = () => {
-  const successMessage = success.cloneNode(true);
-  body.appendChild(successMessage);
+  const successMessage = successElement.cloneNode(true);
+  bodyElement.appendChild(successMessage);
 
   const onDocumentClick = () => {
     successMessage.remove();
@@ -68,8 +68,8 @@ const showSuccessMessage = () => {
 };
 
 const showErrorMessage = () => {
-  const errorMessage = error.cloneNode(true);
-  body.appendChild(errorMessage);
+  const errorMessage = errorElement.cloneNode(true);
+  bodyElement.appendChild(errorMessage);
 
   const onDocumentClick = () => {
     errorMessage.remove();
@@ -97,7 +97,7 @@ const onSendSuccess = () => {
 };
 
 const onSendFailure = () => {
-  adFormSubmit.disabled = false;
+  formSubmitElement.disabled = false;
   showErrorMessage();
 };
 
@@ -108,17 +108,17 @@ const onFormReset = () => {
 };
 
 const setFormListener = () => {
-  adForm.addEventListener('submit', (evt) => {
+  formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = validateForm();
 
     if (isValid) {
-      adFormSubmit.disabled = true;
+      formSubmitElement.disabled = true;
       sendData(onSendSuccess, onSendFailure, new FormData(evt.target));
     }
   });
 };
 
-adForm.addEventListener('reset', onFormReset);
+formElement.addEventListener('reset', onFormReset);
 
 export {deactivateForms, activateForm, activateFilters, setFormListener};

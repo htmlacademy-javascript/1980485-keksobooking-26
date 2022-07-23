@@ -7,16 +7,16 @@ const PriceValue = {
   HIGH: 50000
 };
 
-const mapFilters = document.querySelector('.map__filters');
-const filterSelects = mapFilters.querySelectorAll('select');
-const housingType = mapFilters.querySelector('#housing-type');
-const housingPrice = mapFilters.querySelector('#housing-price');
-const housingRooms = mapFilters.querySelector('#housing-rooms');
-const housingGuests = mapFilters.querySelector('#housing-guests');
-const housingFeatures = mapFilters.querySelector('#housing-features');
-const filterCheckboxes = housingFeatures.querySelectorAll('input');
+const mapFiltersElement = document.querySelector('.map__filters');
+const filterSelectElements = mapFiltersElement.querySelectorAll('select');
+const housingTypeElement = mapFiltersElement.querySelector('#housing-type');
+const housingPriceElement = mapFiltersElement.querySelector('#housing-price');
+const housingRoomsElement = mapFiltersElement.querySelector('#housing-rooms');
+const housingGuestsElement = mapFiltersElement.querySelector('#housing-guests');
+const housingFeaturesElement = mapFiltersElement.querySelector('#housing-features');
+const filterCheckboxesElements = housingFeaturesElement.querySelectorAll('input');
 
-const fiterByType = (ad, type) => type === 'any' || ad.offer.type === type;
+const filterByType = (ad, type) => type === 'any' || ad.offer.type === type;
 
 const filterByPrice = (ad, price) => {
   switch (price) {
@@ -45,11 +45,11 @@ const filterByFeatures = (ad, features) => {
 };
 
 const filterAds = (data) => {
-  const selectedType = housingType.value;
-  const selectedPrice = housingPrice.value;
-  const selectedRooms = housingRooms.value;
-  const selectedGuests = housingGuests.value;
-  const checkedFeatures = Array.from(housingFeatures.querySelectorAll('input[type="checkbox"]:checked'));
+  const selectedType = housingTypeElement.value;
+  const selectedPrice = housingPriceElement.value;
+  const selectedRooms = housingRoomsElement.value;
+  const selectedGuests = housingGuestsElement.value;
+  const checkedFeatures = Array.from(housingFeaturesElement.querySelectorAll('input[type="checkbox"]:checked'));
 
   const filteredAds = [];
 
@@ -59,7 +59,7 @@ const filterAds = (data) => {
     }
 
     if (
-      fiterByType(ad, selectedType) &&
+      filterByType(ad, selectedType) &&
       filterByPrice(ad, selectedPrice) &&
       filterByRooms(ad, selectedRooms) &&
       filterByGuests(ad, selectedGuests) &&
@@ -79,15 +79,15 @@ const onFilterChange = (data) =>{
 };
 
 const setFilterListener = (data) => {
-  mapFilters.addEventListener('change', debounce(() => onFilterChange(data)));
+  mapFiltersElement.addEventListener('change', debounce(() => onFilterChange(data)));
 };
 
 const resetFilters = () => {
-  filterSelects.forEach((filterSelect) => {
+  filterSelectElements.forEach((filterSelect) => {
     filterSelect.value = 'any';
   });
 
-  filterCheckboxes.forEach((filterCheckbox) => {
+  filterCheckboxesElements.forEach((filterCheckbox) => {
     filterCheckbox.checked = false;
   });
 

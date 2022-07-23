@@ -8,16 +8,6 @@ const getRandomNumber = (min, max) => {
   return Math.round(Math.random() * (max - min) + min);
 };
 
-const getRandomFractional = (min, max, digits = 5) => {
-  if (min > max || min < 0) {
-    throw new RangeError('Задан неверный диапазон! Укажите другие числа.');
-  }
-
-  const result = ((Math.random() * (max - min) + min).toFixed(digits));
-
-  return Number(result);
-};
-
 // Функция для получения случайного элемента из массива
 const getRandomArrayElement = (element) => element[getRandomNumber(0, element.length - 1)];
 
@@ -30,13 +20,6 @@ const getShuffledArray = (elementsArray) => {
 
     return copy;
   }
-};
-
-// Функция для получения нескольких случайных элементов из массива
-const getRandomArrayElements = (elements) => {
-  const mixedArray = getShuffledArray(elements);
-
-  return mixedArray.slice(0, getRandomNumber(1, mixedArray.length));
 };
 
 // Функция для склонения слов
@@ -74,7 +57,7 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
@@ -90,14 +73,12 @@ function debounce (callback, timeoutDelay = 500) {
     // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
     // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
-}
+};
 
 export {
   getRandomNumber,
-  getRandomFractional,
   getRandomArrayElement,
   getShuffledArray,
-  getRandomArrayElements,
   getDeclensionWords,
   showAlert,
   debounce

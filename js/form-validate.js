@@ -16,17 +16,17 @@ const Price = {
   MAX: 100000
 };
 
-const form = document.querySelector('.ad-form');
-const guestsNumber = form.querySelector('#capacity');
-const roomsNumber = form.querySelector('#room_number');
-const price = form.querySelector('#price');
-const type = form.querySelector('#type');
-const timeSelects = form.querySelector('.ad-form__element--time');
-const timein = form.querySelector('#timein');
-const timeout = form.querySelector('#timeout');
+const formElement = document.querySelector('.ad-form');
+const guestsNumberElement = formElement.querySelector('#capacity');
+const roomsNumberElement = formElement.querySelector('#room_number');
+const priceElement = formElement.querySelector('#price');
+const typeElement = formElement.querySelector('#type');
+const timeSelectElement = formElement.querySelector('.ad-form__element--time');
+const timeinElement = formElement.querySelector('#timein');
+const timeoutElement = formElement.querySelector('#timeout');
 
 
-const pristine = new Pristine(form, {
+const pristine = new Pristine(formElement, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error'
@@ -34,31 +34,29 @@ const pristine = new Pristine(form, {
 
 const getErrorMessage = (roomCount) => `${roomCount} ${capacityMap[roomCount].error}`;
 
-const getPriceErrorMessage = () => `Минимальная цена ${Price.MIN[type.value]}`;
+const getPriceErrorMessage = () => `Минимальная цена ${Price.MIN[typeElement.value]}`;
 
 const onPlaceholderChanges = () => {
-  price.placeholder = Price.MIN[type.value];
-  price.min = Price.MIN[type.value];
+  priceElement.placeholder = Price.MIN[typeElement.value];
+  priceElement.min = Price.MIN[typeElement.value];
 };
 
 const onFieldsSynchronizes = (evt) => {
-  timein.value = evt.target.value;
-  timeout.value = evt.target.value;
+  timeinElement.value = evt.target.value;
+  timeoutElement.value = evt.target.value;
 };
 
-const validateCapacity = () => capacityMap[roomsNumber.value].value.includes(guestsNumber.value);
+const validateCapacity = () => capacityMap[roomsNumberElement.value].value.includes(guestsNumberElement.value);
 
-const validatePrice = () => price.value >= Price.MIN[type.value];
+const validatePrice = () => priceElement.value >= Price.MIN[typeElement.value];
 
 const  initValidation = () => {
-  pristine.addValidator(guestsNumber, validateCapacity);
-  pristine.addValidator(roomsNumber, validateCapacity, getErrorMessage);
-  pristine.addValidator(price, validatePrice, getPriceErrorMessage);
+  pristine.addValidator(guestsNumberElement, validateCapacity);
+  pristine.addValidator(roomsNumberElement, validateCapacity, getErrorMessage);
+  pristine.addValidator(priceElement, validatePrice, getPriceErrorMessage);
 
-  type.addEventListener ('change', onPlaceholderChanges);
-  timeSelects.addEventListener('change', onFieldsSynchronizes);
-
-  pristine.validate();
+  typeElement.addEventListener ('change', onPlaceholderChanges);
+  timeSelectElement.addEventListener('change', onFieldsSynchronizes);
 };
 
 const validateForm = () => pristine.validate();

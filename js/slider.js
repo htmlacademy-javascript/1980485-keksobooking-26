@@ -1,20 +1,21 @@
 import {Price} from './form-validate.js';
 
-const slider = document.querySelector('.ad-form__slider');
-const priceField = document.querySelector('#price');
-const typeField = document.querySelector('#type');
+const sliderElement = document.querySelector('.ad-form__slider');
+const priceFieldElement = document.querySelector('#price');
+const typeFieldElement = document.querySelector('#type');
 
 const onTypeChange = () => {
-  slider.noUiSlider.set(priceField.value);
+  priceFieldElement.value = Price.MIN[typeFieldElement.value];
+  sliderElement.noUiSlider.set(priceFieldElement.value);
 };
 
 const createSlider = () => {
-  noUiSlider.create(slider, {
+  noUiSlider.create(sliderElement, {
     range: {
       min: 0,
       max: Price.MAX,
     },
-    start: Price.MIN[typeField.value],
+    start: Price.MIN[typeFieldElement.value],
     step: 1,
     connect: 'lower',
     format: {
@@ -23,12 +24,12 @@ const createSlider = () => {
     },
   });
 
-  slider.noUiSlider.on('update', () => {
-    priceField.value = slider.noUiSlider.get();
+  sliderElement.noUiSlider.on('update', () => {
+    priceFieldElement.value = sliderElement.noUiSlider.get();
   });
 
-  priceField.addEventListener('change', onTypeChange);
-  typeField.addEventListener('change', onTypeChange);
+  priceFieldElement.addEventListener('change', onTypeChange);
+  typeFieldElement.addEventListener('change', onTypeChange);
 };
 
 export {createSlider};

@@ -42,7 +42,8 @@ const pinIcon = L.icon({
 });
 
 const map = L.map('map-canvas');
-const address = document.querySelector('#address');
+
+const addressElement = document.querySelector('#address');
 
 let renderDefaultMarkers;
 
@@ -75,7 +76,7 @@ const resetMap = () => {
   map.setView({lat: MapCoordinates.LAT, lng: MapCoordinates.LNG}, MAP_SCALE);
   map.closePopup();
   setTimeout(() => {
-    address.value = ADDRESS_DEFAULT;
+    addressElement.value = ADDRESS_DEFAULT;
   }, 0);
 };
 
@@ -91,7 +92,7 @@ const onLoadDataSuccess = (data) => {
 
 const onMapLoad = () => {
   activateForm();
-  address.value = ADDRESS_DEFAULT;
+  addressElement.value = ADDRESS_DEFAULT;
   getData(onLoadDataSuccess);
 };
 
@@ -109,7 +110,7 @@ const loadMap = () => {
 
   mainPinMarker.on('move', (evt) => {
     const {lat, lng} = evt.target.getLatLng();
-    address.value = `${lat.toFixed(5)} ${lng.toFixed(5)}`;
+    addressElement.value = `${lat.toFixed(5)} ${lng.toFixed(5)}`;
   });
 };
 
