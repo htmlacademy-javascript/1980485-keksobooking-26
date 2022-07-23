@@ -1,8 +1,5 @@
 import {getDeclensionWords} from './util.js';
 
-const balloonTemplate = document.querySelector('#card').content.querySelector('.popup');
-const photo = balloonTemplate.querySelector('.popup__photo');
-
 const typeDictionary = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -16,6 +13,9 @@ const declensionWordsMap = {
   guests: ['гостя', 'гостей', 'гостей']
 };
 
+const balloonTemplateElement = document.querySelector('#card').content.querySelector('.popup');
+const photoElement = balloonTemplateElement.querySelector('.popup__photo');
+
 const createFeatures = (elements, container) => {
   elements.forEach((item) => {
     const featuresItem = document.createElement('li');
@@ -26,9 +26,9 @@ const createFeatures = (elements, container) => {
 
 const createPhotos = (elements, container) => {
   elements.forEach((item) => {
-    const photoElement = photo.cloneNode(true);
-    photoElement.src = item;
-    container.append(photoElement);
+    const photo = photoElement.cloneNode(true);
+    photo.src = item;
+    container.append(photo);
   });
 };
 
@@ -48,7 +48,7 @@ const renderPopup = ({offer, author}) => {
     photos
   } = offer;
 
-  const popupElement = balloonTemplate.cloneNode(true);
+  const popupElement = balloonTemplateElement.cloneNode(true);
   const containerPhotos = popupElement.querySelector('.popup__photos');
   const containerFeatures = popupElement.querySelector('.popup__features');
   popupElement.querySelector('.popup__title').textContent = title;

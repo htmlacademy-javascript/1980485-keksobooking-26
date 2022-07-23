@@ -1,12 +1,12 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-const adForm = document.querySelector('.ad-form');
-const avatarChooser = adForm.querySelector('#avatar');
-const avatarPreview = adForm.querySelector('.ad-form-header__avatar');
-const photoChooser = adForm.querySelector('#images');
-const photoPreview = adForm.querySelector('.ad-form__photo-preview');
+const formElement = document.querySelector('.ad-form');
+const avatarChooserElement = formElement.querySelector('#avatar');
+const avatarPreviewElement = formElement.querySelector('.ad-form-header__avatar');
+const photoChooserElement = formElement.querySelector('#images');
+const photoPreviewElement = formElement.querySelector('.ad-form__photo-preview');
 
-const avatarSrcDefault = avatarPreview.src;
+const avatarSrcDefault = avatarPreviewElement.src;
 
 const onChooserChange = (chooser, preview) => {
   const file = chooser.files[0];
@@ -21,19 +21,19 @@ const onChooserChange = (chooser, preview) => {
 };
 
 const setLoadImagesListener = () => {
-  avatarChooser.addEventListener('change', () => {
-    onChooserChange(avatarChooser, avatarPreview);
+  avatarChooserElement.addEventListener('change', () => {
+    onChooserChange(avatarChooserElement, avatarPreviewElement);
   });
 
-  photoChooser.addEventListener('change', () => {
-    onChooserChange(photoChooser, photoPreview);
+  photoChooserElement.addEventListener('change', () => {
+    onChooserChange(photoChooserElement, photoPreviewElement);
   });
 };
 
 const resetPreview = () => {
-  avatarPreview.src = avatarSrcDefault;
-  photoPreview.src = '';
-  photoPreview.classList.add('hidden');
+  avatarPreviewElement.src = avatarSrcDefault;
+  photoPreviewElement.src = '';
+  photoPreviewElement.classList.add('hidden');
 };
 
 export {setLoadImagesListener, resetPreview};
